@@ -1,0 +1,395 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import '../services/vehicle_service.dart';
+import '../services/gps_service.dart';
+import '../services/command_service.dart';
+import '../models/vehicle.dart';
+import '../theme.dart';
+
+class VehicleDetailScreen extends StatefulWidget {
+  final String vehicleId;
+  const VehicleDetailScreen({super.key, required this.vehicleId});
+
+  @override
+  State<VehicleDetailScreen> createState() => _VehicleDetailScreenState();
+}
+
+class _VehicleDetailScreenState extends State<VehicleDetailScreen> {
+  final MapController _mapController = MapController();
+  bool _isStopping = false;
+  double _selectedRadius = 100.0; // Default 100 meters
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<GpsService>().startTracking([widget.vehicleId]);
+    });
+  }
+
+  void _toggleSecureZone(Vehicle vehicle, LatLng currentPos) {
+    final vehicleService = context.read<VehicleService>();
+    if (vehicle.isSecureZoneActive) {
+      vehicleService.toggleSecureZone(vehicle.id, false);
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Secure Zone Deactivated')));
+    } else {
+      // Set zone with user-selected radius around current position
+      vehicleService.updateSecureZone(vehicle.id, currentPos, _selectedRadius);
+      final radiusText = _selectedRadius >= 1000
+          ? '${(_selectedRadius / 1000).toStringAsFixed(1)} km'
+          : '${_selectedRadius.toInt()} m';
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Secure Zone Active ($radiusText)'),
+        backgroundColor: AppTheme.successColor,
+      ));
+    }
+  }
+
+  void _emergencyStop(Vehicle vehicle) async {
+    final confirm = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: const Text('EMERGENCY STOP'),
+              content: const Text(
+                  'Are you sure you want to cut the engine? This is a dangerous operation.'),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(ctx, false),
+                    child: const Text('Cancel')),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  onPressed: () => Navigator.pop(ctx, true),
+                  child: const Text('STOP ENGINE'),
+                ),
+              ],
+            ));
+
+    if (confirm == true) {
+      setState(() => _isStopping = true);
+      final success =
+          await context.read<CommandService>().stopVehicleEngine(vehicle.id);
+      setState(() => _isStopping = false);
+
+      if (mounted) {
+        if (success) {
+          showDialog(
+              context: context,
+              builder: (_) => const AlertDialog(
+                    title: Text('Command Sent'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.check_circle, color: Colors.green, size: 64),
+                        SizedBox(height: 16),
+                        Text('Engine stop command received by vehicle.'),
+                      ],
+                    ),
+                  ));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Failed to send command')));
+        }
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Vehicle Monitor'),
+        backgroundColor: AppTheme.primaryColor,
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
+      body: Consumer2<VehicleService, GpsService>(
+        builder: (context, vehicleService, gpsService, _) {
+          final vehicle = vehicleService.vehicles.firstWhere(
+              (v) => v.id == widget.vehicleId,
+              orElse: () => Vehicle(
+                  id: 'err',
+                  ownerId: '',
+                  model: 'Unknown',
+                  licensePlate: '',
+                  gpsId: ''));
+
+          final latestPos = gpsService.latestPositions[widget.vehicleId];
+          final currentLatLng = latestPos != null
+              ? LatLng(latestPos.latitude, latestPos.longitude)
+              : const LatLng(48.8566, 2.3522); // Default Paris
+
+          final isOutside = vehicle.isOutsideZone(currentLatLng);
+
+          return Column(
+            children: [
+              // Map Area
+              Expanded(
+                flex: 2,
+                child: Stack(
+                  children: [
+                    FlutterMap(
+                      mapController: _mapController,
+                      options: MapOptions(
+                        center: currentLatLng,
+                        zoom: 15,
+                        interactiveFlags: InteractiveFlag.all,
+                      ),
+                      children: [
+                        TileLayer(
+                          urlTemplate:
+                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          userAgentPackageName: 'com.safetrack.app',
+                          // Dark mode filter for tiles
+                          tileBuilder: (context, widget, tile) {
+                            return ColorFiltered(
+                                colorFilter: const ColorFilter.mode(
+                                    Colors.black54, BlendMode.darken),
+                                child: widget);
+                          },
+                        ),
+                        // Secure Zone Circle
+                        if (vehicle.isSecureZoneActive &&
+                            vehicle.secureZoneCenter != null)
+                          CircleLayer(
+                            circles: [
+                              CircleMarker(
+                                point: vehicle.secureZoneCenter!,
+                                radius: vehicle.secureZoneRadius ?? 100,
+                                useRadiusInMeter: true,
+                                color: Colors.green.withOpacity(0.2),
+                                borderColor: Colors.green,
+                                borderStrokeWidth: 2,
+                              )
+                            ],
+                          ),
+                        // Vehicle Marker
+                        MarkerLayer(
+                          markers: [
+                            Marker(
+                              point: currentLatLng,
+                              width: 80,
+                              height: 80,
+                              child: const Icon(Icons.directions_car,
+                                      color: Color(0xFF0EA5E9), size: 40)
+                                  .animate(onPlay: (c) => c.repeat())
+                                  .shimmer(duration: 2.seconds),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    // Status Overlay
+                    Positioned(
+                      top: 16,
+                      left: 16,
+                      right: 16,
+                      child: Card(
+                        color: Colors.black87,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(vehicle.model,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white)),
+                                  Text('Speed: 0 km/h',
+                                      style: const TextStyle(
+                                          color: Colors.white54)),
+                                ],
+                              ),
+                              if (isOutside)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 6),
+                                  decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: const Row(
+                                    children: [
+                                      Icon(Icons.warning,
+                                          color: Colors.white, size: 16),
+                                      SizedBox(width: 4),
+                                      Text('ZONE ALERT',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                )
+                                    .animate(
+                                        onPlay: (c) => c.repeat(reverse: true))
+                                    .fade(duration: 500.ms),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Controls Area
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF1E293B),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(32),
+                        topRight: Radius.circular(32)),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      // Radius Selector (only show when zone is NOT active)
+                      if (!vehicle.isSecureZoneActive)
+                        Column(
+                          children: [
+                            Text(
+                              'Safe Zone Radius',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Text(
+                                  '50m',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                        color: Colors.white38,
+                                      ),
+                                ),
+                                Expanded(
+                                  child: Slider(
+                                    value: _selectedRadius,
+                                    min: 50,
+                                    max: 5000,
+                                    divisions: 99,
+                                    activeColor: AppTheme.accentColor,
+                                    inactiveColor: Colors.white10,
+                                    label: _selectedRadius >= 1000
+                                        ? '${(_selectedRadius / 1000).toStringAsFixed(1)} km'
+                                        : '${_selectedRadius.toInt()} m',
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedRadius = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Text(
+                                  '5km',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                        color: Colors.white38,
+                                      ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              decoration: BoxDecoration(
+                                color: AppTheme.accentColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                _selectedRadius >= 1000
+                                    ? '${(_selectedRadius / 1000).toStringAsFixed(1)} km'
+                                    : '${_selectedRadius.toInt()} meters',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      color: AppTheme.accentColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                          ],
+                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              icon: Icon(vehicle.isSecureZoneActive
+                                  ? Icons.lock_open
+                                  : Icons.lock),
+                              label: Text(vehicle.isSecureZoneActive
+                                  ? 'Disable Zone'
+                                  : 'Set Safe Zone'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: vehicle.isSecureZoneActive
+                                    ? Colors.grey
+                                    : const Color(0xFF10B981),
+                              ),
+                              onPressed: () =>
+                                  _toggleSecureZone(vehicle, currentLatLng),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(color: Colors.white10),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 56,
+                        child: ElevatedButton.icon(
+                          onPressed: _isStopping
+                              ? null
+                              : () => _emergencyStop(vehicle),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFEF4444),
+                            shadowColor: Colors.redAccent,
+                            elevation: 8,
+                          ),
+                          icon: const Icon(Icons.power_settings_new),
+                          label: _isStopping
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white)
+                              : const Text('STOP VEHICLE',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 18,
+                                      letterSpacing: 1.2)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          );
+        },
+      ),
+    );
+  }
+}

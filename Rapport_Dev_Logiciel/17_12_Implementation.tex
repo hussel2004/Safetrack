@@ -1,0 +1,139 @@
+\section{Phase d'Implémentation}
+\label{sec:implementation}
+
+Cette section décrit la concrétisation technique de la solution SafeTrack, de l'environnement de développement à l'intégration des composants.
+
+\subsection{Architecture technique du projet}
+La mise en production et le développement reposent sur la conteneurisation via \textbf{Docker}.
+\begin{itemize}
+    \item \textbf{Docker Service 'backend'} : Image basée sur Python 3.10-slim, exposant l'API sur le port 8000.
+    \item \textbf{Docker Service 'db'} : Conteneur PostgreSQL officiel avec persistance des données via volumes Docker.
+    \item \textbf{Orchestration} : Un fichier \texttt{docker-compose.yml} permet de lancer l'ensemble de la stack (Backend + Database) avec une seule commande, assurant la cohérence des environnements entre les développeurs.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/architecture_docker.png}
+    \caption{Architecture technique Dockerisée du projet SafeTrack.}
+    \label{fig:docker_arch}
+\end{figure}
+
+\subsection{Structure des dossiers et organisation du code}
+Le projet est organisé en deux dépôts principaux au sein du monorepo :
+
+\subsubsection{Frontend (SafeTrackF/Frontend)}
+L'architecture du code Flutter suit une séparation claire des responsabilités :
+\begin{itemize}
+    \item \texttt{lib/screens/} : Contient les vues (Pages Login, Map, Liste Véhicules).
+    \item \texttt{lib/providers/} : Gestion de l'état global (UserProvider, VehicleProvider) via le pattern \textbf{Provider}, permettant de notifier l'UI des changements de données.
+    \item \texttt{lib/services/} : Couche d'abstraction API (Authentification, Récupération des données).
+    \item \texttt{lib/models/} : Classes de données (POJO) pour typer les réponses JSON.
+\end{itemize}
+
+\subsubsection{Backend (SafeTrackF/Backend)}
+Le backend FastAPI adopte une structure modulaire :
+\begin{itemize}
+    \item \texttt{app/routers/} : Définition des endpoints API groupés par fonctionnalité (auth, vehicles, geofences).
+    \item \texttt{app/models/} : Modèles SQLAlchemy mappant les tables de la base de données.
+    \item \texttt{app/schemas/} : Schémas Pydantic pour la validation des entrées/sorties API.
+    \item \texttt{app/core/} : Configuration globale et gestion de la sécurité (hachage mots de passe).
+\end{itemize}
+
+\subsection{Développement du Frontend}
+Le développement de l'application mobile s'est concentré sur trois axes majeurs de l'implémentation :
+\begin{enumerate}
+    \item \textbf{Tableau de bord cartographique} : Intégration de \texttt{flutter\_map} pour afficher la position des véhicules. Implémentation d'un système de rafraîchissement automatique (\textit{Timer}) qui interroge l'API périodiquement pour simuler le temps réel.
+    \item \textbf{Gestion des Geofences} : Interface permettant de dessiner et configurer des zones de sécurité. Les cercles de zone sont rendus visuellement sur la carte avec une couleur semi-transparente.
+    \item \textbf{Authentification & Sécurité} : Mise en place d'un flux de connexion sécurisé avec stockage local du token de session.
+\end{enumerate}
+
+\clearpage
+\subsubsection{Authentification}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/screen_login_true.jpeg}
+    \caption{Écran de Connexion}
+    \label{fig:screen_login}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/screen_register.jpeg}
+    \caption{Écran d'Inscription}
+    \label{fig:screen_register}
+\end{figure}
+
+\clearpage
+\subsubsection{Tableau de Bord et Gestion des Véhicules}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/screen_dashboard.jpeg}
+    \caption{Tableau de Bord Principal}
+    \label{fig:screen_dashboard}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/screen_vehicle_detail.jpeg}
+    \caption{Détail d'un Véhicule}
+    \label{fig:screen_vehicle_detail}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/screen_vehicle_edit.jpeg}
+    \caption{Modification d'un Véhicule}
+    \label{fig:screen_vehicle_edit}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/screen_vehicle_registration.jpeg}
+    \caption{Enregistrement d'un Nouveau Véhicule}
+    \label{fig:screen_vehicle_registration}
+\end{figure}
+
+\clearpage
+\subsubsection{Cartographie et Geofencing}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/screen_map_tracking.jpeg}
+    \caption{Carte de Suivi Temps Réel}
+    \label{fig:screen_map}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/screen_geofence_list.jpeg}
+    \caption{Liste des Zones de Sécurité}
+    \label{fig:screen_geofence_list}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/screen_geofence_drawing.jpeg}
+    \caption{Création de Zone Interactive}
+    \label{fig:screen_zone_drawing}
+\end{figure}
+
+
+
+\subsection{Développement du Backend}
+L'API Backend a été développée pour être performante et résiliente :
+\begin{itemize}
+    \item \textbf{Endpoints RESTful} : Développement des routes CRUD (Create, Read, Update, Delete) pour la gestion des véhicules et utilisateurs.
+    \item \textbf{Parsing LoRaWAN} : Une logique spécifique a été implémentée via la fonction \texttt{fn\_parser\_sim808\_gps} pour décoder les trames brutes (souvent en hexadécimal ou Base64) provenant des capteurs SIM808. Ce parser extrait la latitude, longitude et les indicateurs de statut.
+    \item \textbf{Tâches de fond} : Le traitement des webhooks de ChirpStack se fait de manière asynchrone pour garantir que la gateway LoRa reçoive immédiatement un accusé de réception (HTTP 200), le traitement lourd s'effectuant ensuite.
+\end{itemize}
+
+\subsection{Intégration avec le système embarqué}
+L'intégration "bout en bout" est le cœur du système SafeTrack. Le flux d'intégration réalisé est le suivant :
+\begin{enumerate}
+    \item Le module matériel envoie une trame codée.
+    \item ChirpStack (Network Server) reçoit la trame et la transfère via Webhook HTTP POST vers l'endpoint \texttt{/api/v1/uplink} de notre backend.
+    \item Le backend \textbf{décode} la payload, identifie le véhicule via son \texttt{DevEUI}, et insère la nouvelle position en base.
+    \item Un trigger base de données vérifie instantanément si cette nouvelle position viole une règle de Geofencing.
+    \item Le Frontend, lors de son prochain rafraîchissement, récupère ce nouvel état et met à jour l'affichage (ex: icône rouge si alerte).
+\end{enumerate}

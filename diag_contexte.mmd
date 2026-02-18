@@ -1,0 +1,17 @@
+C4Context
+    title Diagramme de Contexte Système - SafeTrack
+
+    Person(user, "Utilisateur", "Propriétaire de véhicule")
+    System(safetrack_app, "Application Mobile SafeTrack", "Permet de suivre les véhicules, définir des zones de sécurité et arrêter le moteur à distance")
+
+    System_Ext(backend, "Backend API", "Gestion des utilisateurs, des véhicules et stockage des données (Simulé/Spring Boot)")
+    System_Ext(gps, "Système GPS Smartphone", "Fournit la localisation géospatiale du véhicule (Simulé)")
+    System_Ext(maps, "Service de Cartographie", "Affichage des cartes et itinéraires (Google Maps/OSM)")
+    System_Ext(iot, "Module IoT Véhicule", "Reçoit les commandes d'arrêt et envoie la télémétrie")
+
+    Rel(user, safetrack_app, "Utilise", "Touch Interface")
+    Rel(safetrack_app, gps, "Reçoit la position", "Stream/Location API")
+    Rel(safetrack_app, maps, "Affiche la carte", "Map API")
+    Rel(safetrack_app, backend, "Authentification & Data", "HTTP/JSON")
+    Rel(backend, iot, "Envoie la commande STOP", "MQTT/HTTP")
+    Rel(safetrack_app, iot, "Stop Moteur (via Backend)", "Indirect")

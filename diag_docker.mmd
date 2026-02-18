@@ -1,0 +1,32 @@
+graph TD
+    subgraph Docker_Host ["Hôte Docker (Dev Machine)"]
+        style Docker_Host fill:#f9f9f9,stroke:#333,stroke-width:2px
+        
+        subgraph Network ["Réseau: safetrack_network"]
+            style Network fill:#e1f5fe,stroke:#0288d1,stroke-dasharray: 5 5
+
+            DB[("PostgreSQL\nContainer: safetrack_db\nPort: 5432")]
+            style DB fill:#336791,stroke:#fff,color:#fff
+
+            Backend("FastAPI API\nContainer: safetrack_backend\nPort: 8000")
+            style Backend fill:#009688,stroke:#fff,color:#fff
+
+            PgAdmin("PgAdmin 4\nContainer: safetrack_pgadmin\nPort: 5050")
+            style PgAdmin fill:#fff,stroke:#333
+        end
+
+        Volume1[("Volume: postgres_data")]
+        style Volume1 fill:#ffecb3,stroke:#ff6f00
+    end
+
+    Client["Application Mobile / Postman"]
+    Browser["Navigateur Web"]
+
+    %% Relationships
+    Client -- HTTP GET/POST:8000 --> Backend
+    Browser -- HTTP:5050 --> PgAdmin
+    
+    Backend -- "TCP:5432\n(user/pass)" --> DB
+    PgAdmin -- TCP:5432 --> DB
+    
+    DB -.-> Volume1

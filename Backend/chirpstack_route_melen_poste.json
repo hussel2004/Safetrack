@@ -1,0 +1,1802 @@
+[
+  {
+    "deduplicationId": "sim-000-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:28.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 100,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8641935,
+      "longitude": 11.4942122,
+      "speed": 10,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -57,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-001-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:30.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 101,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8641222,
+      "longitude": 11.4946961,
+      "speed": 15,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -58,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-002-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:32.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 102,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8640509,
+      "longitude": 11.49518,
+      "speed": 20,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -59,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-003-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:34.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 103,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8639795,
+      "longitude": 11.4956639,
+      "speed": 25,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -60,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-004-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:36.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 104,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8639082,
+      "longitude": 11.4961478,
+      "speed": 30,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -61,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-005-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:38.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 105,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8638369,
+      "longitude": 11.4966318,
+      "speed": 50,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -57,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-006-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:40.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 106,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8637656,
+      "longitude": 11.4971157,
+      "speed": 52,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -58,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-007-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:42.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 107,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8636942,
+      "longitude": 11.4975996,
+      "speed": 54,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -59,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-008-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:44.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 108,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8636229,
+      "longitude": 11.4980835,
+      "speed": 56,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -60,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-009-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:46.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 109,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8635516,
+      "longitude": 11.4985674,
+      "speed": 58,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -61,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-010-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:48.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 110,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8634803,
+      "longitude": 11.4990513,
+      "speed": 40,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -57,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-011-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:50.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 111,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.863409,
+      "longitude": 11.4995352,
+      "speed": 42,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -58,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-012-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:52.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 112,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8633376,
+      "longitude": 11.5000191,
+      "speed": 44,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -59,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-013-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:54.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 113,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8632663,
+      "longitude": 11.5005031,
+      "speed": 46,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -60,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-014-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:56.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 114,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.863195,
+      "longitude": 11.500987,
+      "speed": 48,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -61,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-015-71F118B4E8F86E22",
+    "time": "2026-02-16T07:07:58.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 115,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8631237,
+      "longitude": 11.5014709,
+      "speed": 50,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -57,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-016-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:00.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 116,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8630523,
+      "longitude": 11.5019548,
+      "speed": 52,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -58,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-017-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:02.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 117,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.862981,
+      "longitude": 11.5024387,
+      "speed": 54,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -59,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-018-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:04.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 118,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8629097,
+      "longitude": 11.5029226,
+      "speed": 56,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -60,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-019-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:06.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 119,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8628384,
+      "longitude": 11.5034065,
+      "speed": 58,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -61,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-020-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:08.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 120,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8627671,
+      "longitude": 11.5038904,
+      "speed": 40,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -57,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-021-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:10.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 121,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8626957,
+      "longitude": 11.5043744,
+      "speed": 42,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -58,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-022-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:12.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 122,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8626244,
+      "longitude": 11.5048583,
+      "speed": 44,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -59,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-023-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:14.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 123,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8625531,
+      "longitude": 11.5053422,
+      "speed": 46,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -60,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-024-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:16.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 124,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8624818,
+      "longitude": 11.5058261,
+      "speed": 48,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -61,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-025-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:18.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 125,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8624104,
+      "longitude": 11.50631,
+      "speed": 50,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -57,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-026-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:20.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 126,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8623391,
+      "longitude": 11.5067939,
+      "speed": 52,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -58,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-027-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:22.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 127,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8622678,
+      "longitude": 11.5072778,
+      "speed": 54,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -59,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-028-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:24.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 128,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8621965,
+      "longitude": 11.5077617,
+      "speed": 56,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -60,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-029-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:26.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 129,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8621251,
+      "longitude": 11.5082457,
+      "speed": 58,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -61,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-030-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:28.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 130,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8620538,
+      "longitude": 11.5087296,
+      "speed": 40,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -57,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-031-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:30.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 131,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8619825,
+      "longitude": 11.5092135,
+      "speed": 42,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -58,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-032-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:32.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 132,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8619112,
+      "longitude": 11.5096974,
+      "speed": 44,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -59,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-033-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:34.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 133,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8618399,
+      "longitude": 11.5101813,
+      "speed": 46,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -60,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-034-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:36.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 134,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8617685,
+      "longitude": 11.5106652,
+      "speed": 48,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -61,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-035-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:38.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 135,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8616972,
+      "longitude": 11.5111491,
+      "speed": 50,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -57,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-036-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:40.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 136,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8616259,
+      "longitude": 11.511633,
+      "speed": 52,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -58,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-037-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:42.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 137,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8615546,
+      "longitude": 11.512117,
+      "speed": 54,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -59,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-038-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:44.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 138,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8614832,
+      "longitude": 11.5126009,
+      "speed": 56,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -60,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-039-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:46.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 139,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8614119,
+      "longitude": 11.5130848,
+      "speed": 58,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -61,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-040-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:48.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 140,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8613406,
+      "longitude": 11.5135687,
+      "speed": 40,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -57,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-041-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:50.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 141,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8612693,
+      "longitude": 11.5140526,
+      "speed": 23,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -58,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-042-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:52.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 142,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.861198,
+      "longitude": 11.5145365,
+      "speed": 26,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -59,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-043-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:54.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 143,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8611266,
+      "longitude": 11.5150204,
+      "speed": 29,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -60,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-044-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:56.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 144,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8610553,
+      "longitude": 11.5155043,
+      "speed": 32,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -61,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-045-71F118B4E8F86E22",
+    "time": "2026-02-16T07:08:58.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 145,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.860984,
+      "longitude": 11.5159883,
+      "speed": 35,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -57,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-046-71F118B4E8F86E22",
+    "time": "2026-02-16T07:09:00.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 146,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8609127,
+      "longitude": 11.5164722,
+      "speed": 38,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -58,
+        "snr": 9.0
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-047-71F118B4E8F86E22",
+    "time": "2026-02-16T07:09:02.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 147,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8608413,
+      "longitude": 11.5169561,
+      "speed": 41,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -59,
+        "snr": 8.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-048-71F118B4E8F86E22",
+    "time": "2026-02-16T07:09:04.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 148,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.86077,
+      "longitude": 11.51744,
+      "speed": 44,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 9
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -60,
+        "snr": 9.5
+      }
+    ]
+  },
+  {
+    "deduplicationId": "sim-049-71F118B4E8F86E22",
+    "time": "2026-02-16T07:09:06.688512Z",
+    "deviceInfo": {
+      "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+      "tenantName": "SafeTrack",
+      "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+      "applicationName": "Vehicle Tracking",
+      "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+      "deviceProfileName": "GPS Tracker",
+      "deviceName": "Black Origin Tracker",
+      "devEui": "71F118B4E8F86E22",
+      "deviceClassEnabled": "CLASS_A"
+    },
+    "devAddr": "20000001",
+    "adr": true,
+    "dr": 5,
+    "fCnt": 149,
+    "fPort": 2,
+    "confirmed": false,
+    "object": {
+      "latitude": 3.8606987,
+      "longitude": 11.5179239,
+      "speed": 47,
+      "heading": 45.0,
+      "altitude": 730.0,
+      "satellites": 8
+    },
+    "rxInfo": [
+      {
+        "gatewayId": "0016c001f0000001",
+        "rssi": -61,
+        "snr": 9.0
+      }
+    ]
+  }
+]

@@ -1,0 +1,26 @@
+> Task :gradle:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle:compileKotlin UP-TO-DATE
+> Task :gradle:compileJava NO-SOURCE
+> Task :gradle:compileGroovy NO-SOURCE
+> Task :gradle:pluginDescriptors UP-TO-DATE
+> Task :gradle:processResources UP-TO-DATE
+> Task :gradle:classes UP-TO-DATE
+> Task :gradle:jar UP-TO-DATE
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file 'C:\Users\j-store\Desktop\SafeTrackF\Frontend\android\build.gradle.kts' line: 19
+
+* What went wrong:
+A problem occurred configuring project ':app'.
+> [CXX1101] NDK at C:\Users\j-store\AppData\Local\Android\Sdk\ndk\28.2.13676358 did not have a source.properties file
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2s
+4 actionable tasks: 4 up-to-date

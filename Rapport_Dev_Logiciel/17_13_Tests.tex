@@ -1,0 +1,59 @@
+\section{Phase de Tests et Validation}
+\label{sec:tests}
+
+Cette phase cruciale assure la fiabilité du système avant son déploiement final.
+
+\subsection{Stratégie de tests logiciels}
+Nous avons adopté la stratégie de la "Pyramide de Tests", favorisant une base large de tests unitaires et d'intégration, complétée par des tests système et d'interface.
+
+\subsection{Tests Unitaires}
+Les tests unitaires se focalisent sur la logique métier critique du Backend, isolée de la base de données réelle (Mocking). Ils sont principalement regroupés dans le fichier \texttt{test\_unitaires.py}.
+\begin{itemize}
+    \item \textbf{Calculs Géographiques} : Vérification que la fonction de distance Haversine renvoie des valeurs correctes à ±1 mètre près.
+    \item \textbf{Parsing de Trames} : Validation que le parser extrait correctement les données d'une chaîne hexadécimale, et rejette les formats invalides.
+\end{itemize}
+
+\subsection{Tests d'Intégration}
+Les tests d'intégration valident la communication entre l'API et la base de données PostgreSQL.
+\begin{enumerate}
+    \item \textbf{Scénario "Happy Path"} : Création d'un véhicule -> Ajout d'une position -> Récupération de l'historique. Le test valide que les données sont persistées et ressorties intègres.
+    \item \textbf{Scénario d'Erreur} : Tentative de création d'un véhicule avec un \texttt{deveui} dupliqué. Le test confirme que l'API renvoie bien une erreur 409 Conflict.
+\end{enumerate}
+
+\subsection{Tests Fonctionnels}
+Ces tests simulent des cas d'utilisation réels grâce à des scripts Python dédiés :
+\begin{itemize}
+    \item \textbf{Script} : \texttt{simulate\_geofence\_lifecycle.py}
+    \item \textbf{Objectif} : Simuler le trajet complet d'un véhicule entrant et sortant d'une zone sécurisée.
+    \item \textbf{Résultat Attendu} : Le système doit générer une alerte "HORS\_ZONE" précise dès que la position simulée dépasse le rayon défini.
+\end{itemize}
+
+\subsection{Tests d'Interface Utilisateur}
+Tests manuels effectués sur des terminaux Android physiques et émulés :
+\begin{itemize}
+    \item \textbf{Réactivité de la Carte} : Fluidité du zoom et du déplacement (Pan/Zoom) avec plusieurs marqueurs.
+    \item \textbf{Affichage des Alertes} : Vérification que les notifications visuelles (changement de couleur, pop-up) apparaissent bien lors d'un événement critique.
+\end{itemize}
+
+\subsection{Tests de Performance}
+Nous avons testé la tenue en charge du système :
+\begin{itemize}
+    \item \textbf{Insertion Massive} : Injection de 100 positions par seconde via un script de charge.
+    \item \textbf{Optimisation} : Ajout d'index SQL sur les colonnes \texttt{deveui} et \texttt{timestamp} pour maintenir des temps de réponse API sous les 100ms.
+\end{itemize}
+
+\subsection{Tests de Sécurité}
+\begin{itemize}
+    \item \textbf{Injection SQL} : Les requêtes passent systématiquement par l'ORM SQLAlchemy ou des requêtes paramétrées, neutralisant les tentatives d'injection.
+    \item \textbf{Mots de Passe} : Vérification que les mots de passe utilisateurs sont bien stockés sous forme de hash (Bcrypt) et jamais en clair.
+\end{itemize}
+
+\subsection{Résultats des tests et analyse}
+La phase de test a permis de valider 100\% des fonctionnalités critiques (Tracking, Alerting). Les quelques régressions détectées (latence d'affichage initiale) ont été corrigées avant la livraison.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/test_results.png}
+    \caption{Capture d'écran de l'exécution réussie des tests unitaires et d'intégration.}
+    \label{fig:test_results}
+\end{figure}

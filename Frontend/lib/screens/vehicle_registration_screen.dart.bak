@@ -1,0 +1,223 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:provider/provider.dart';
+import '../services/vehicle_service.dart';
+import '../services/auth_service.dart';
+import '../theme.dart';
+
+class VehicleRegistrationScreen extends StatefulWidget {
+  const VehicleRegistrationScreen({super.key});
+
+  @override
+  State<VehicleRegistrationScreen> createState() =>
+      _VehicleRegistrationScreenState();
+}
+
+class _VehicleRegistrationScreenState extends State<VehicleRegistrationScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _modelController = TextEditingController();
+  final _plateController = TextEditingController();
+  bool _isSubmitting = false;
+
+  @override
+  void dispose() {
+    _modelController.dispose();
+    _plateController.dispose();
+    super.dispose();
+  }
+
+  String? _validateModel(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Car model is required';
+    }
+    if (value.length < 2) {
+      return 'Model must be at least 2 characters';
+    }
+    return null;
+  }
+
+  String? _validatePlate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'License plate is required';
+    }
+    if (value.length < 2) {
+      return 'License plate must be at least 2 characters';
+    }
+    return null;
+  }
+
+  void _submit() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() => _isSubmitting = true);
+
+      final authService = context.read<AuthService>();
+      final vehicleService = context.read<VehicleService>();
+
+      if (authService.currentUser != null) {
+        await vehicleService.registerVehicle(
+          authService.currentUser!.id,
+          _modelController.text.trim(),
+          _plateController.text.trim().toUpperCase(),
+        );
+      }
+
+      setState(() => _isSubmitting = false);
+      if (mounted) {
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: 12),
+                Text('Vehicle Registered Successfully'),
+              ],
+            ),
+            backgroundColor: AppTheme.successColor,
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Register Vehicle'),
+        backgroundColor: AppTheme.primaryColor,
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Header
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppTheme.accentColor.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.directions_car,
+                  size: 64,
+                  color: AppTheme.accentColor,
+                ),
+              ).animate().scale(duration: 400.ms),
+
+              const SizedBox(height: 24),
+
+              Text(
+                'Add New Vehicle',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+              ).animate().fadeIn(delay: 200.ms),
+
+              const SizedBox(height: 8),
+
+              Text(
+                'Enter your vehicle details below',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Colors.white60,
+                    ),
+              ).animate().fadeIn(delay: 300.ms),
+
+              const SizedBox(height: 40),
+
+              // Model Field
+              TextFormField(
+                controller: _modelController,
+                validator: _validateModel,
+                textCapitalization: TextCapitalization.words,
+                decoration: const InputDecoration(
+                  labelText: 'Car Model',
+                  hintText: 'e.g. Tesla Model 3, BMW X5',
+                  prefixIcon: Icon(Icons.directions_car_outlined,
+                      color: AppTheme.accentColor),
+                ),
+              ).animate().fadeIn(delay: 400.ms).slideX(begin: -0.2),
+
+              const SizedBox(height: 20),
+
+              // License Plate Field
+              TextFormField(
+                controller: _plateController,
+                validator: _validatePlate,
+                textCapitalization: TextCapitalization.characters,
+                decoration: InputDecoration(
+                  labelText: 'License Plate',
+                  hintText: 'e.g. ABC-1234',
+                  prefixIcon: const Icon(Icons.credit_card,
+                      color: AppTheme.accentColor),
+                  helperText: 'Will be converted to uppercase',
+                  counterText: '${_plateController.text.length} characters',
+                ),
+                onChanged: (_) => setState(() {}),
+              ).animate().fadeIn(delay: 500.ms).slideX(begin: 0.2),
+
+              const SizedBox(height: 40),
+
+              // Submit Button
+              SizedBox(
+                height: 56,
+                child: ElevatedButton.icon(
+                  onPressed: _isSubmitting ? null : _submit,
+                  icon: _isSubmitting
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : const Icon(Icons.add_circle),
+                  label: Text(
+                    _isSubmitting ? 'Registering...' : 'Register Vehicle',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.accentColor,
+                    disabledBackgroundColor:
+                        AppTheme.accentColor.withOpacity(0.5),
+                  ),
+                ),
+              ).animate().fadeIn(delay: 600.ms).moveY(begin: 20),
+
+              const SizedBox(height: 16),
+
+              // Cancel Button
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(color: Colors.white54),
+                ),
+              ).animate().fadeIn(delay: 700.ms),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

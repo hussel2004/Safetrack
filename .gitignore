@@ -1,0 +1,28 @@
+# Backend
+Backend/postgres_data/
+Backend/__pycache__/
+Backend/.env
+Backend/venv/
+Backend/*.pyc
+
+# Frontend
+Frontend/build/
+Frontend/.dart_tool/
+Frontend/.env
+Frontend/.pub/
+Frontend/.flutter-plugins
+Frontend/.flutter-plugins-dependencies
+
+# IDE & System
+.idea/
+.vscode/
+*.iml
+**/.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+Backend/logs.txt
+Backend/output.txt
+Backend/script_output.txt
+Backend/script_output_2.txt

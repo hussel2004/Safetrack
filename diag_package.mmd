@@ -1,0 +1,83 @@
+classDiagram
+    direction TB
+    namespace Presentation_Screens {
+        class LoginScreen
+        class DashboardScreen
+        class VehicleDetailScreen
+        class VehicleRegistrationScreen
+        class GeofenceListScreen
+        class AlertsScreen
+    }
+
+    namespace Logic_Services_Providers {
+        class AuthService {
+            +User currentUser
+            +login()
+            +register()
+            +logout()
+        }
+        class VehicleService {
+            +List vehicles
+            +registerVehicle()
+            +getVehicle()
+        }
+        class GpsService {
+            +Position currentPosition
+            +streamPositions()
+        }
+        class CommandService {
+            +stopVehicleEngine()
+        }
+        class GeofenceService {
+            +List zones
+            +checkZone(position)
+            +updateGpsService()
+        }
+    }
+
+    namespace Data_Models {
+        class User {
+            +String id
+            +String username
+            +String email
+        }
+        class Vehicle {
+            +String id
+            +String brand
+            +String licensePlate
+            +GeoPoint currentPosition
+        }
+        class GpsPosition {
+            +double lat
+            +double lon
+            +DateTime timestamp
+        }
+        class Zone {
+            +String id
+            +double lat
+            +double lon
+            +double radius
+        }
+        class Alert {
+            +String type
+            +String message
+            +DateTime timestamp
+        }
+    }
+
+    %% Relationships - Screens to Services
+    LoginScreen ..> AuthService : Uses
+    DashboardScreen ..> VehicleService : Uses
+    DashboardScreen ..> GpsService : Uses
+    VehicleDetailScreen ..> CommandService : Uses
+    VehicleDetailScreen ..> GeofenceService : Uses
+    VehicleRegistrationScreen ..> VehicleService : Uses
+    AlertsScreen ..> GeofenceService : Observes
+
+    %% Services to Models
+    AuthService --> User : Manages
+    VehicleService --> Vehicle : Manages
+    GpsService --> GpsPosition : Streams
+    GeofenceService --> Zone : Manages
+    GeofenceService --> Alert : Generates
+    Vehicle --|> GpsPosition : Contains (Implied)

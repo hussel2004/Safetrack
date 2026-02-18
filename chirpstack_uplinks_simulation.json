@@ -1,0 +1,138 @@
+[
+    {
+        "deduplicationId": "057d23c8-5798-4b00-906b-f3e6d0ea449a",
+        "time": "2026-02-16T08:00:00Z",
+        "deviceInfo": {
+            "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+            "tenantName": "SafeTrack",
+            "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+            "applicationName": "Vehicle Tracking",
+            "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+            "deviceProfileName": "GPS Tracker",
+            "deviceName": "Black Origin Tracker",
+            "devEui": "71F118B4E8F86E22",
+            "deviceClassEnabled": "CLASS_A"
+        },
+        "devAddr": "20000001",
+        "adr": true,
+        "dr": 5,
+        "fCnt": 125,
+        "fPort": 2,
+        "confirmed": false,
+        "data": "My44NjQxOTM1LDExLjQ5NDIxMjIsMC4wLDQ1LjA=",
+        "object": {
+            "latitude": 3.8641935,
+            "longitude": 11.4942122,
+            "speed": 0.0,
+            "heading": 45.0,
+            "altitude": 730.0,
+            "satellites": 8
+        },
+        "rxInfo": [
+            {
+                "gatewayId": "0016c001f0000001",
+                "rssi": -57,
+                "snr": 9.5
+            }
+        ]
+    },
+    {
+        "deduplicationId": "157d23c8-5798-4b00-906b-f3e6d0ea449b",
+        "time": "2026-02-16T08:00:02Z",
+        "deviceInfo": {
+            "tenantId": "52f14cd4-c6f1-4fbd-8f87-4025e1d49242",
+            "tenantName": "SafeTrack",
+            "applicationId": "ca73f355-7fc6-4653-8c0f-b1c8c5c9d67b",
+            "applicationName": "Vehicle Tracking",
+            "deviceProfileId": "605d08d4-65f1-4d55-92cc-f93757a8eb23",
+            "deviceProfileName": "GPS Tracker",
+            "deviceName": "Black Origin Tracker",
+            "devEui": "71F118B4E8F86E22",
+            "deviceClassEnabled": "CLASS_A"
+        },
+        "devAddr": "20000001",
+        "adr": true,
+        "dr": 5,
+        "fCnt": 126,
+        "fPort": 2,
+        "confirmed": false,
+        "data": "My44NjQxMjIsIDExLjQ5NDY5NiwgMTAuMCwgNDUuMA==",
+        "object": {
+            "latitude": 3.864122,
+            "longitude": 11.494696,
+            "speed": 10.0,
+            "heading": 45.0,
+            "altitude": 730.0,
+            "satellites": 8
+        },
+        "rxInfo": [
+            {
+                "gatewayId": "0016c001f0000001",
+                "rssi": -58,
+                "snr": 9.2
+            }
+        ]
+    },
+    {
+        "deduplicationId": "257d23c8-5798-4b00-906b-f3e6d0ea449c",
+        "time": "2026-02-16T08:00:04Z",
+        "deviceInfo": {
+            "deviceName": "Black Origin Tracker",
+            "devEui": "71F118B4E8F86E22"
+        },
+        "fCnt": 127,
+        "fPort": 2,
+        "object": {
+            "latitude": 3.864051,
+            "longitude": 11.49518,
+            "speed": 15.0,
+            "heading": 45.0,
+            "altitude": 730.0,
+            "satellites": 8
+        }
+    },
+    {
+        "time": "2026-02-16T08:00:06Z",
+        "deviceInfo": {
+            "devEui": "71F118B4E8F86E22"
+        },
+        "fCnt": 128,
+        "object": {
+            "latitude": 3.86398,
+            "longitude": 11.495664,
+            "speed": 20.0,
+            "heading": 45.0,
+            "altitude": 730.0,
+            "satellites": 9
+        }
+    },
+    {
+        "time": "2026-02-16T08:00:08Z",
+        "deviceInfo": {
+            "devEui": "71F118B4E8F86E22"
+        },
+        "fCnt": 129,
+        "object": {
+            "latitude": 3.863909,
+            "longitude": 11.496148,
+            "speed": 25.0,
+            "heading": 45.0,
+            "altitude": 730.0,
+            "satellites": 9
+        }
+    },
+    {
+        "time": "2026-02-16T08:00:10Z",
+        "deviceInfo": {
+            "devEui": "71F118B4E8F86E22"
+        },
+        "object": {
+            "latitude": 3.863838,
+            "longitude": 11.496632,
+            "speed": 30.0,
+            "heading": 45.0,
+            "altitude": 730.0,
+            "satellites": 9
+        }
+    }
+]

@@ -1,0 +1,33 @@
+\section{Difficultés rencontrées et solutions apportées}
+\label{sec:difficultes}
+
+Le développement de SafeTrack a présenté plusieurs défis techniques majeurs.
+
+\subsection{Précision des outils cartographiques Open Source}
+\textbf{Difficulté} : L'utilisation de solutions open-source comme OpenStreetMap via \texttt{flutter\_map} a révélé certaines limites en termes de précision et de mise à jour des données cartographiques dans certaines zones locales, comparé à des solutions propriétaires.
+\\
+\textbf{Solution} : Adaptation de l'interface pour tolérer ces légères imprécisions et usage de marqueurs visuels clairs pour compenser le manque de détails du fond de carte.
+
+\subsection{Contraintes d'accès à l'API Google Maps}
+\textbf{Difficulté} : L'intégration de l'API Google Maps, initialement envisagée pour sa précision supérieure, s'est heurtée à des barrières administratives et financières. La plateforme exige l'enregistrement d'une carte de crédit valide pour l'obtention des clés API et rejette systématiquement les cartes prépayées, ce qui était incompatible avec les ressources du projet.
+\\
+\textbf{Solution} : Le choix s'est définitivement porté sur une stack 100\% open-source sans dépendance financière, garantissant la pérennité et la reproductibilité du projet.
+
+\subsection{Latence et Temps Réel}
+\textbf{Difficulté} : Assurer une visualisation "temps réel" fluide alors que le protocole LoRaWAN impose des délais de transmission et que le réseau mobile peut être instable.
+\\
+\textbf{Solution} :
+\begin{itemize}
+    \item Optimisation de la chaîne de traitement backend (traitement asynchrone).
+    \item Côté Frontend, mise en place d'un mécanisme de polling intelligent et d'interpolation de mouvement pour fluidifier visuellement les déplacements des marqueurs entre deux points GPS reçus.
+\end{itemize}
+
+\subsection{Gestion de la Cartographie}
+\textbf{Difficulté} : L'affichage de milliers de points ou de zones complexes sur mobile peut rapidement dégrader les performances (ralentissements, consommation batterie).
+\\
+\textbf{Solution} : Usage optimisé de \texttt{flutter\_map} en limitant le nombre de marqueurs affichés simultanément (clustering) et en simplifiant la géométrie des zones affichées.
+
+\subsection{Configuration de l'environnement Docker}
+\textbf{Difficulté} : Faire communiquer les conteneurs (Backend, DB) de manière fiable, notamment pour les connexions réseau internes.
+\\
+\textbf{Solution} : Utilisation du réseau interne Docker (\texttt{networks}) et référencement des services par leur nom d'hôte Docker (ex: "db" au lieu de "localhost"), garantissant une portabilité totale.

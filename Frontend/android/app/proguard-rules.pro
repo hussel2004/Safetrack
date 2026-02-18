@@ -1,0 +1,4 @@
+-keep class com.dexterous.flutterlocalnotifications.** { *; }
+-keep class androidx.core.app.** { *; }
+-keep class android.support.v4.app.** { *; }
+-dontwarn com.dexterous.flutterlocalnotifications.**

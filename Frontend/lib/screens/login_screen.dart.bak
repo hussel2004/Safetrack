@@ -1,0 +1,242 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../services/auth_service.dart';
+import '../theme.dart';
+import 'dashboard_screen.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isLoading = false;
+  bool _obscurePassword = true;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email is required';
+    }
+    if (!value.contains('@')) {
+      return 'Please enter a valid email';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
+  }
+
+  void _login() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      final success = await context.read<AuthService>().login(
+            _emailController.text.trim(),
+            _passwordController.text,
+          );
+
+      setState(() => _isLoading = false);
+
+      if (success && mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const DashboardScreen()),
+        );
+      } else if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Invalid email or password'),
+            backgroundColor: AppTheme.alertColor,
+          ),
+        );
+      }
+    } catch (e) {
+      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login failed: ${e.toString()}'),
+            backgroundColor: AppTheme.alertColor,
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppTheme.backgroundColor, AppTheme.primaryColor],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Logo
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: AppTheme.accentColor.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.gps_fixed,
+                        size: 80,
+                        color: AppTheme.accentColor,
+                      ),
+                    )
+                        .animate()
+                        .scale(duration: 600.ms, curve: Curves.easeOutBack),
+
+                    const SizedBox(height: 24),
+
+                    Text(
+                      'SafeTrack',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            letterSpacing: 1.2,
+                          ),
+                    ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.2),
+
+                    const SizedBox(height: 8),
+
+                    Text(
+                      'Secure GPS Tracking & Control',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Colors.white60,
+                          ),
+                    ).animate().fadeIn(delay: 400.ms),
+
+                    const SizedBox(height: 48),
+
+                    // Email Field
+                    TextFormField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: _validateEmail,
+                      decoration: const InputDecoration(
+                        labelText: 'Email',
+                        hintText: 'Enter your email',
+                        prefixIcon: Icon(Icons.email_outlined,
+                            color: AppTheme.accentColor),
+                      ),
+                    ).animate().fadeIn(delay: 600.ms).slideX(begin: -0.2),
+
+                    const SizedBox(height: 16),
+
+                    // Password Field
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: _obscurePassword,
+                      validator: _validatePassword,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: 'Enter your password',
+                        prefixIcon: const Icon(Icons.lock_outline,
+                            color: AppTheme.accentColor),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Colors.white54,
+                          ),
+                          onPressed: () {
+                            setState(
+                                () => _obscurePassword = !_obscurePassword);
+                          },
+                        ),
+                      ),
+                      onFieldSubmitted: (_) => _login(),
+                    ).animate().fadeIn(delay: 800.ms).slideX(begin: 0.2),
+
+                    const SizedBox(height: 32),
+
+                    // Login Button
+                    SizedBox(
+                      height: 56,
+                      child: ElevatedButton(
+                        onPressed: _isLoading ? null : _login,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.accentColor,
+                          disabledBackgroundColor:
+                              AppTheme.accentColor.withOpacity(0.5),
+                        ),
+                        child: _isLoading
+                            ? const SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 3,
+                                ),
+                              )
+                            : const Text(
+                                'Access Dashboard',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                      ),
+                    ).animate().fadeIn(delay: 1000.ms).moveY(begin: 20),
+
+                    const SizedBox(height: 24),
+
+                    // Additional Info
+                    Text(
+                      'Secure. Reliable. Always Connected.',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: Colors.white38,
+                            fontStyle: FontStyle.italic,
+                          ),
+                    ).animate().fadeIn(delay: 1200.ms),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
