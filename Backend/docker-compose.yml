@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # Database Service
+  # ─── SafeTrack Database ─────────────────────────────────────────────────────
   db:
     image: postgis/postgis:15-3.3
     container_name: safetrack_db
@@ -18,7 +18,7 @@ services:
     networks:
       - safetrack_network
 
-  # Backend Service
+  # ─── SafeTrack Backend ──────────────────────────────────────────────────────
   backend:
     build: .
     container_name: safetrack_backend
@@ -31,6 +31,9 @@ services:
       SECRET_KEY: ${SECRET_KEY}
       ALGORITHM: ${ALGORITHM}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
+      CHIRPSTACK_API_URL: http://chirpstack-app-server:8080
+      CHIRPSTACK_API_KEY: ${CHIRPSTACK_API_KEY}
+      OSRM_ENABLED: "false"
     volumes:
       - .:/app
     ports:
@@ -41,7 +44,7 @@ services:
       - safetrack_network
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
-  # pgAdmin Service
+  # ─── pgAdmin ────────────────────────────────────────────────────────────────
   pgadmin:
     image: dpage/pgadmin4
     container_name: safetrack_pgadmin
@@ -55,9 +58,95 @@ services:
       - db
     networks:
       - safetrack_network
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # ChirpStack v3
+  # ═══════════════════════════════════════════════════════════════════════════
+
+  # Shared PostgreSQL for ChirpStack databases
+  chirpstack-postgres:
+    image: postgres:14-alpine
+    container_name: chirpstack_postgres
+    restart: always
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - ./chirpstack/init_chirpstack_db.sql:/docker-entrypoint-initdb.d/init_chirpstack_db.sql
+      - chirpstack_postgres_data:/var/lib/postgresql/data
+    networks:
+      - safetrack_network
+
+  # Redis (required by ChirpStack)
+  redis:
+    image: redis:6-alpine
+    container_name: chirpstack_redis
+    restart: always
+    volumes:
+      - chirpstack_redis_data:/data
+    networks:
+      - safetrack_network
+
+  # Mosquitto MQTT broker (used by gateway bridge)
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: chirpstack_mosquitto
+    restart: always
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./chirpstack/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      - safetrack_network
+
+  # ChirpStack Gateway Bridge v3 — listens for packets from LoRa gateway
+  chirpstack-gateway-bridge:
+    image: chirpstack/chirpstack-gateway-bridge:3
+    container_name: chirpstack_gateway_bridge
+    restart: always
+    ports:
+      - "1700:1700/udp" # ← LoRa gateway (192.168.1.157) sends here
+    volumes:
+      - ./chirpstack/chirpstack-gateway-bridge.toml:/etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+    depends_on:
+      - mosquitto
+    networks:
+      - safetrack_network
+
+  # ChirpStack Network Server v3
+  chirpstack-network-server:
+    image: chirpstack/chirpstack-network-server:3
+    container_name: chirpstack_network_server
+    restart: always
+    volumes:
+      - ./chirpstack/chirpstack-network-server.toml:/etc/chirpstack-network-server/chirpstack-network-server.toml
+    depends_on:
+      - chirpstack-postgres
+      - redis
+      - mosquitto
+    networks:
+      - safetrack_network
+
+  # ChirpStack Application Server v3 — Web UI on port 8080
+  chirpstack-app-server:
+    image: chirpstack/chirpstack-application-server:3
+    container_name: chirpstack_app_server
+    restart: always
+    ports:
+      - "8080:8080" # ← ChirpStack Web UI
+    volumes:
+      - ./chirpstack/chirpstack-application-server.toml:/etc/chirpstack-application-server/chirpstack-application-server.toml
+    depends_on:
+      - chirpstack-postgres
+      - redis
+      - chirpstack-network-server
+    networks:
+      - safetrack_network
+
 networks:
   safetrack_network:
     driver: bridge
 
 volumes:
   postgres_data:
+  chirpstack_postgres_data:
+  chirpstack_redis_data:

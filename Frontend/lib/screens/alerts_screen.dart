@@ -6,20 +6,41 @@ import '../models/alert.dart';
 import '../services/geofence_service.dart';
 import '../theme.dart';
 
-class AlertsScreen extends StatelessWidget {
+class AlertsScreen extends StatefulWidget {
   final Vehicle vehicle;
 
   const AlertsScreen({super.key, required this.vehicle});
 
   @override
+  State<AlertsScreen> createState() => _AlertsScreenState();
+}
+
+class _AlertsScreenState extends State<AlertsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<GeofenceService>().fetchAlerts(widget.vehicle.id);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final geofenceService = context.watch<GeofenceService>();
-    final alerts = geofenceService.getAlerts(vehicle.id);
+    final alerts = geofenceService.getAlerts(widget.vehicle.id);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Alerts History'),
         backgroundColor: AppTheme.primaryColor,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              geofenceService.fetchAlerts(widget.vehicle.id);
+            },
+          ),
+        ],
       ),
       body: alerts.isEmpty
           ? Center(
@@ -37,6 +58,14 @@ class AlertsScreen extends StatelessWidget {
                     style: Theme.of(
                       context,
                     ).textTheme.titleLarge?.copyWith(color: Colors.grey),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      geofenceService.fetchAlerts(widget.vehicle.id);
+                    },
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Rafraîchir'),
                   ),
                 ],
               ),
@@ -63,17 +92,16 @@ class AlertsScreen extends StatelessWidget {
                         ? const Icon(Icons.check_circle, color: Colors.green)
                         : IconButton(
                             icon: const Icon(
-                              Icons.check_circle_outline,
-                              color: Colors.grey,
+                              Icons.notifications_off_outlined,
+                              color: Colors.red,
                             ),
+                            tooltip: 'Arrêter l\'alarme',
                             onPressed: () {
                               geofenceService.acknowledgeAlert(alert.id);
                             },
                           ),
                     onTap: () {
-                      if (!alert.isAcknowledged) {
-                        geofenceService.acknowledgeAlert(alert.id);
-                      }
+                      // Optional: Show details dialog
                     },
                   ),
                 );

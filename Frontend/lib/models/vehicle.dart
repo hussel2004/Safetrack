@@ -20,6 +20,11 @@ class Vehicle {
 
   // Status
   bool isEngineStopped;
+  bool
+  modeAuto; // True = geofencing automatique actif (backend envoie STOP tout seul)
+  bool
+  moteurEnAttente; // True = commande STOP/START envoyée mais pas encore confirmée
+  DateTime? lastCommunication;
 
   // Stop mode configuration
   StopMode stopMode;
@@ -38,8 +43,17 @@ class Vehicle {
     this.secureZoneCenter,
     this.isSecureZoneActive = false,
     this.isEngineStopped = false,
+    this.modeAuto = false,
+    this.moteurEnAttente = false,
+    this.lastCommunication,
     this.stopMode = StopMode.manual, // Default to manual
   });
+
+  bool get isOnline {
+    if (lastCommunication == null) return false;
+    final diff = DateTime.now().difference(lastCommunication!);
+    return diff.inMinutes < 5; // Online if comm in last 5 minutes
+  }
 
   // Calculate distance from center (Mock helper)
   bool isOutsideZone(LatLng currentPos) {
@@ -69,7 +83,12 @@ class Vehicle {
       gpsId: json['deveui'] ?? '',
       deveui: json['deveui'] ?? '',
       isEngineStopped: json['moteur_coupe'] ?? false,
-      stopMode: (json['moteur_coupe'] ?? false)
+      modeAuto: json['mode_auto'] ?? false,
+      moteurEnAttente: json['moteur_en_attente'] ?? false,
+      lastCommunication: json['derniere_communication'] != null
+          ? DateTime.parse('${json['derniere_communication']}Z').toLocal()
+          : null,
+      stopMode: (json['mode_auto'] ?? false)
           ? StopMode.automatic
           : StopMode.manual,
     );

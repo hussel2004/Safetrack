@@ -69,6 +69,7 @@ CREATE TABLE vehicule (
     appkey VARCHAR(255),
     statut VARCHAR(20) DEFAULT 'ACTIF',
     moteur_coupe BOOLEAN DEFAULT FALSE,
+    mode_auto BOOLEAN DEFAULT FALSE,
     derniere_position_lat DECIMAL(10,8),
     derniere_position_lon DECIMAL(11,8),
     derniere_communication TIMESTAMP,

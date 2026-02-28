@@ -94,6 +94,59 @@ class VehicleService extends ChangeNotifier {
     }
   }
 
+  /// Appaire un boîtier DISPONIBLE (pré-enregistré par le technicien) à
+  /// l'utilisateur courant via le DevEUI inscrit sur le boîtier.
+  Future<String?> pairVehicle({
+    required String deveui,
+    required String nom,
+    String? marque,
+    String? modele,
+    int? annee,
+    String? immatriculation,
+  }) async {
+    if (_authService.token == null) return 'Non authentifié';
+
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.vehicles}/pair'),
+        headers: {
+          'Authorization': 'Bearer ${_authService.token}',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'deveui': deveui.trim().toUpperCase(),
+          'nom': nom,
+          if (marque != null && marque.isNotEmpty) 'marque': marque,
+          if (modele != null && modele.isNotEmpty) 'modele': modele,
+          if (annee != null) 'annee': annee,
+          if (immatriculation != null && immatriculation.isNotEmpty)
+            'immatriculation': immatriculation,
+        }),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        await fetchVehicles();
+        return null; // Succès
+      } else {
+        try {
+          final errorData = json.decode(response.body);
+          final detail = errorData['detail'];
+          if (detail != null) return detail;
+        } catch (_) {}
+        if (response.statusCode == 404) {
+          return 'DevEUI introuvable. Vérifiez le code sur votre boîtier.';
+        }
+        if (response.statusCode == 409) {
+          return 'Ce boîtier est déjà associé à un autre compte.';
+        }
+        return 'Échec de l\'appairage (${response.statusCode})';
+      }
+    } catch (e) {
+      debugPrint('Pair vehicle error: $e');
+      return 'Erreur de connexion: $e';
+    }
+  }
+
   Future<void> updateVehicle(
     String vehicleId,
     String name,
@@ -132,15 +185,21 @@ class VehicleService extends ChangeNotifier {
     if (_authService.token == null) return;
 
     try {
+      final url = '${ApiConfig.vehicles}/$vehicleId';
+      final body = json.encode({'moteur_coupe': stopped});
+      debugPrint('📡 Sending engine status request to: $url');
+      debugPrint('📦 Payload: $body');
+
       final response = await http.put(
-        Uri.parse('${ApiConfig.vehicles}/$vehicleId'),
+        Uri.parse(url),
         headers: {
           'Authorization': 'Bearer ${_authService.token}',
           'Content-Type': 'application/json',
         },
-        body: json.encode({'moteur_coupe': stopped}),
+        body: body,
       );
 
+      debugPrint('📡 Response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         await fetchVehicles();
         if (stopped) {

@@ -28,8 +28,9 @@ async def get_current_user(
         token_data = TokenPayload(**payload)
     except (JWTError, ValueError):
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Could not validate credentials",
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token invalide ou expiré",
+            headers={"WWW-Authenticate": "Bearer"},
         )
     
     if token_data.sub is None:

@@ -44,7 +44,8 @@ class _GeofenceListScreenState extends State<GeofenceListScreen> {
               ),
               children: [
                 TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  urlTemplate:
+                      'https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
                   userAgentPackageName: 'com.safetrack.app',
                 ),
                 PolygonLayer(

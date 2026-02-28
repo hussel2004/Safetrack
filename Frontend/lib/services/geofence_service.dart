@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/zone.dart';
 import '../models/alert.dart';
 import '../models/gps_position.dart';
@@ -21,9 +22,67 @@ class GeofenceService extends ChangeNotifier {
   final Uuid _uuid = const Uuid();
   final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
+  SharedPreferences? _prefs;
 
   GeofenceService(this._authService) {
-    _initializeNotifications();
+    _initializeServices();
+  }
+
+  Future<void> _initializeServices() async {
+    await _initializeNotifications();
+    _prefs = await SharedPreferences.getInstance();
+    await _loadAlerts();
+  }
+
+  Future<void> _loadAlerts() async {
+    if (_prefs == null) return;
+    final String? alertsJson = _prefs!.getString('alerts_list');
+    if (alertsJson != null) {
+      try {
+        final List<dynamic> decoded = json.decode(alertsJson);
+        _alerts.clear();
+        _alerts.addAll(
+          decoded.map(
+            (item) => Alert(
+              id: item['id'],
+              vehicleId: item['vehicleId'],
+              type: _parseAlertType(item['type']),
+              severity: _parseAlertSeverity(item['severity']),
+              message: item['message'],
+              timestamp: DateTime.parse('${item['timestamp']}Z').toLocal(),
+              isAcknowledged: item['isAcknowledged'] ?? false,
+            ),
+          ),
+        );
+        notifyListeners();
+      } catch (e) {
+        debugPrint('Error loading local alerts: $e');
+      }
+    }
+  }
+
+  Future<void> _saveAlerts() async {
+    if (_prefs == null) return;
+    try {
+      final String encoded = json.encode(
+        _alerts
+            .map(
+              (a) => {
+                'id': a.id,
+                'vehicleId': a.vehicleId,
+                'type': a.type.toString().split('.').last.toUpperCase(),
+                'severity': a.severity.toString().split('.').last.toUpperCase(),
+                'message': a.message,
+                'timestamp': a.timestamp.toIso8601String(),
+                'isAcknowledged': a.isAcknowledged,
+              },
+            )
+            .toList(),
+      );
+      await _prefs!.setString('alerts_list', encoded);
+    } catch (e) {
+      debugPrint('Error saving local alerts: $e');
+    }
   }
 
   Future<void> _initializeNotifications() async {
@@ -34,7 +93,25 @@ class GeofenceService extends ChangeNotifier {
     const InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
 
-    await _notificationsPlugin.initialize(initializationSettings);
+    await _notificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) async {
+        if (response.actionId == 'STOP_ALERT' && response.payload != null) {
+          final vehicleId = response.payload!;
+          // Find the latest unacknowledged alert for this vehicle
+          try {
+            final alerts = getAlerts(vehicleId);
+            final activeAlert = alerts.firstWhere(
+              (a) => !a.isAcknowledged && a.type == AlertType.horsZone,
+              orElse: () => alerts.first, // Fallback
+            );
+            await acknowledgeAlert(activeAlert.id);
+          } catch (e) {
+            debugPrint('Error handling notification action: $e');
+          }
+        }
+      },
+    );
   }
 
   List<Zone> getZones(String? vehicleId) {
@@ -259,25 +336,27 @@ class GeofenceService extends ChangeNotifier {
     );
   }
 
-  // Activate a zone (auto-deactivates other zones for same vehicle)
+  // Activate a zone — désactive automatiquement toute zone précédemment active
   Future<void> activateZone(String zoneId) async {
-    // Optimistic update
+    if (_authService.token == null) return;
+
     final index = _zones.indexWhere((z) => z.id == zoneId);
     if (index == -1) return;
 
     final zone = _zones[index];
 
-    // Deactivate others locally
-    for (int i = 0; i < _zones.length; i++) {
-      if (_zones[i].vehicleId == zone.vehicleId && _zones[i].id != zoneId) {
-        // In a real app we would call backend to deactivate these too
-        // For now, let's just update the target zone
-      }
+    // 1. Déactiver toute autre zone active pour le même véhicule (backend)
+    final otherActive = _zones
+        .where(
+          (z) => z.vehicleId == zone.vehicleId && z.id != zoneId && z.isActive,
+        )
+        .toList();
+
+    for (final other in otherActive) {
+      await _updateZoneStatus(other.id, false);
     }
 
-    // Call backend to update
-    // We reuse add/update logic or specific endpoint if exists.
-    // Backend `update_zone` PUT endpoint exists.
+    // 2. Activer la zone demandée
     await _updateZoneStatus(zoneId, true);
   }
 
@@ -307,11 +386,13 @@ class GeofenceService extends ChangeNotifier {
     }
   }
 
-  void checkGeofence(String vehicleId, GpsPosition position) {
+  Future<void> checkGeofence(String vehicleId, GpsPosition position) async {
+    if (_prefs == null) return; // Wait for initialization
+
     final vehicleZones = getZones(vehicleId).where((z) => z.isActive).toList();
     if (vehicleZones.isEmpty) return;
 
-    bool isInsideAnyZone = false;
+    bool currentlyInside = false;
 
     // Check if inside ANY active zone
     // Backend uses Circles, Frontend model uses Polygons generated from circles
@@ -320,13 +401,34 @@ class GeofenceService extends ChangeNotifier {
 
     for (final zone in vehicleZones) {
       if (zone.containsPoint(point)) {
-        isInsideAnyZone = true;
+        currentlyInside = true;
         break;
       }
     }
 
-    if (!isInsideAnyZone) {
-      // Trigger alert logic
+    final String stateKey = 'geofence_state_$vehicleId';
+    bool wasInside =
+        _prefs!.getBool(stateKey) ?? true; // Default to true (safe)
+
+    // Transition: Inside -> Outside
+    if (wasInside && !currentlyInside) {
+      final message = "Le véhicule est hors de la zone de sécurité !";
+      // Create NEW alert
+      await _createAlert(
+        vehicleId,
+        AlertType.horsZone,
+        AlertSeverity.critique,
+        message,
+      );
+      // Show notification (sound)
+      await _showSystemNotification(vehicleId, message);
+
+      // Update state
+      await _prefs!.setBool(stateKey, false);
+    }
+    // State: Still Outside
+    else if (!wasInside && !currentlyInside) {
+      // Find active (latest) alert
       final lastAlert = _alerts
           .where(
             (a) => a.vehicleId == vehicleId && a.type == AlertType.horsZone,
@@ -339,17 +441,46 @@ class GeofenceService extends ChangeNotifier {
                 : prev,
           );
 
-      if (lastAlert == null ||
-          DateTime.now().difference(lastAlert.timestamp).inSeconds > 30) {
-        final message = "Le véhicule est hors de la zone de sécurité !";
-        _createAlert(
-          vehicleId,
-          AlertType.horsZone,
-          AlertSeverity.critique,
-          message,
-        );
-        _showSystemNotification(vehicleId, message);
+      if (lastAlert != null) {
+        // If NOT acknowledged and enough time passed, REMIND
+        if (!lastAlert.isAcknowledged &&
+            DateTime.now().difference(lastAlert.timestamp).inSeconds > 30) {
+          // We don't create a new alert object, just re-notify
+          // Actually, user wants "stop" to silence.
+          // If we re-notify, we might annoy.
+          // But if we don't re-notify, a short beep might be missed.
+          // Let's re-notify only if it continues to be unacknowledged,
+          // but maybe throttle it? The condition > 30s checks timestamp of ALERT.
+          // This means it notifies ONCE after 30s? No.
+          // If I rely on `checkGeofence` loop (1s), this condition is true FOREVER after 30s.
+          // So it would spam every second after 30s! BAD.
+
+          // Solution: We need `lastNotificationTime`.
+          // Or, simplistic: Just notify ONCE on transition (standard mobile behavior).
+          // User said "stopper pour que ca arrete de pertuber".
+          // This implies it IS perturbing (repeating).
+          // If I want repeating alarm:
+          // I need to track `lastNotificationTime` in memory.
+          // For now, let's stick to: Notify on transition.
+          // AND if unacknowledged, MAYBE remind every minute?
+          // To implement repetition properly without variable explosion:
+          // Let's just notify ONCE on transition.
+          // The "Stopper" button then just marks it as read/acknowledged in history.
+          // Does "Stopper" imply stopping a generic recurring sound?
+          // If the notification has a sound, it plays once.
+          // Unless `ongoing: true`?
+          // If `ongoing` (persistent notification), "Stop" removes it.
+          // Let's try to use ongoing notification for "Outside Zone".
+        }
       }
+    }
+    // Transition: Outside -> Inside
+    else if (!wasInside && currentlyInside) {
+      // Back to safety
+      await _prefs!.setBool(stateKey, true);
+
+      // Optional: Cancel notification
+      await _notificationsPlugin.cancel(0); // Assuming ID 0 is the alert
     }
   }
 
@@ -362,12 +493,17 @@ class GeofenceService extends ChangeNotifier {
           importance: Importance.max,
           priority: Priority.high,
           ticker: 'ticker',
+          ongoing: true, // Persistent until stopped/acknowledged
+          autoCancel: false,
+          actions: <AndroidNotificationAction>[
+            AndroidNotificationAction('STOP_ALERT', 'Arrêter l\'alarme'),
+          ],
         );
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
     );
     await _notificationsPlugin.show(
-      0, // ID
+      0, // ID. Ideally distinct per vehicle/alert, but using 0 for simplicity as per requirement
       'ALERTE VÉHICULE !',
       message,
       platformChannelSpecifics,
@@ -382,8 +518,9 @@ class GeofenceService extends ChangeNotifier {
     final index = _alerts.indexWhere((a) => a.id == alertId);
     if (index != -1) {
       _alerts[index] = _alerts[index].copyWith(isAcknowledged: true);
+      await _saveAlerts();
       notifyListeners();
-      // Cancel system notification if exists
+      // Cancel system notification
       await _notificationsPlugin.cancel(0);
     }
 
@@ -397,6 +534,7 @@ class GeofenceService extends ChangeNotifier {
         // Revert if failed
         if (index != -1) {
           _alerts[index] = _alerts[index].copyWith(isAcknowledged: false);
+          await _saveAlerts();
           notifyListeners();
         }
         debugPrint('Error acknowledging alert: ${response.statusCode}');
@@ -406,6 +544,7 @@ class GeofenceService extends ChangeNotifier {
       // Revert if failed
       if (index != -1) {
         _alerts[index] = _alerts[index].copyWith(isAcknowledged: false);
+        await _saveAlerts();
         notifyListeners();
       }
     }
@@ -422,12 +561,38 @@ class GeofenceService extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
+        final fetchedAlerts = data
+            .map((json) => _mapBackendAlertToFrontend(json))
+            .toList();
+
+        // Merge strategy: Keep local alerts that are NOT in fetched (unsynced)
+        // and update defaults with fetched.
+        // Actually, simplest is: Add fetched, remove duplicates by ID.
+        // But local IDs might be UUIDs, backend IDs are Ints (as strings).
+        // If we have a local alert that failed to sync, it has a UUID.
+        // Backend alerts have numeric IDs.
+        // So we can keep both?
+        // But we don't want to show duplicates if we eventually sync.
+
+        // For now: Add fetched to _alerts.
+        // If we clear _alerts, we lose UUID ones.
+        // So:
+        final existingUnsynced = _alerts
+            .where((a) => int.tryParse(a.id) == null)
+            .toList();
         _alerts.clear();
-        _alerts.addAll(data.map((json) => _mapBackendAlertToFrontend(json)));
+        _alerts.addAll(fetchedAlerts);
+        _alerts.addAll(existingUnsynced); // Re-add unsynced
+
+        // Sort
+        _alerts.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+
+        await _saveAlerts();
         notifyListeners();
+        debugPrint('✅ Validated ${fetchedAlerts.length} alerts from backend.');
       }
     } catch (e) {
-      debugPrint('Fetch alerts error: $e');
+      debugPrint('❌ Fetch alerts error: $e');
     }
   }
 
@@ -438,7 +603,7 @@ class GeofenceService extends ChangeNotifier {
       type: _parseAlertType(json['type_alerte']),
       severity: _parseAlertSeverity(json['severite']),
       message: json['message'],
-      timestamp: DateTime.parse(json['created_at']),
+      timestamp: DateTime.parse('${json['created_at']}Z').toLocal(),
       isAcknowledged: json['acquittee'] ?? false,
     );
   }
@@ -494,7 +659,7 @@ class GeofenceService extends ChangeNotifier {
         await fetchAlerts(vehicleId);
       }
     } catch (e) {
-      debugPrint('Create alert error: $e');
+      debugPrint('❌ Create alert error (Backend failed): $e');
       // Fallback local alert
       final newAlert = Alert(
         id: _uuid.v4(),
@@ -505,6 +670,7 @@ class GeofenceService extends ChangeNotifier {
         timestamp: DateTime.now(),
       );
       _alerts.add(newAlert);
+      await _saveAlerts();
       notifyListeners();
     }
   }

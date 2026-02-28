@@ -23,6 +23,19 @@ class GpsService extends ChangeNotifier {
     return _latestPositions[vehicleId];
   }
 
+  /// Retourne true si une position GPS a été reçue dans les 5 dernières minutes.
+  /// Permet d'afficher l'indicateur hors ligne en temps réel.
+  bool isVehicleOnline(String vehicleId) {
+    final pos = _latestPositions[vehicleId];
+    if (pos == null) return false;
+    return DateTime.now().difference(pos.timestamp).inMinutes < 5;
+  }
+
+  /// Retourne le timestamp de la dernière communication GPS connue, ou null.
+  DateTime? getLastSeen(String vehicleId) {
+    return _latestPositions[vehicleId]?.timestamp;
+  }
+
   void startTracking(List<String> vehicleIds) {
     _timer?.cancel();
     // Poll immediately, then every 3 seconds
@@ -51,7 +64,10 @@ class GpsService extends ChangeNotifier {
               latitude: double.parse(latest['latitude'].toString()),
               longitude: double.parse(latest['longitude'].toString()),
               speed: double.parse(latest['vitesse'].toString()),
-              timestamp: DateTime.parse(latest['timestamp_gps']),
+              timestamp: DateTime.parse('${latest['timestamp_gps']}Z').toLocal(),
+            );
+            debugPrint(
+              '📍 GPS Update for $vehicleId: ${latest['latitude']}, ${latest['longitude']}',
             );
           }
         }

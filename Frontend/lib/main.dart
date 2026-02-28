@@ -6,9 +6,13 @@ import 'services/vehicle_service.dart';
 import 'services/gps_service.dart';
 import 'services/command_service.dart';
 import 'services/geofence_service.dart';
+import 'services/notification_service.dart';
+import 'services/alert_service.dart';
 import 'screens/login_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().init();
   runApp(const SafeTrackApp());
 }
 
@@ -33,6 +37,19 @@ class SafeTrackApp extends StatelessWidget {
           create: (context) => GeofenceService(context.read<AuthService>()),
           update: (_, auth, gps, previous) =>
               (previous ?? GeofenceService(auth))..updateGpsService(gps),
+        ),
+        ChangeNotifierProxyProvider<AuthService, AlertService>(
+          create: (context) => AlertService(context.read<AuthService>()),
+          update: (_, auth, previous) {
+            final service = previous ?? AlertService(auth);
+            if (auth.isAuthenticated) {
+              service.startPolling();
+            } else {
+              service.stopPolling();
+            }
+            return service;
+          },
+          lazy: false,
         ),
       ],
       child: MaterialApp(

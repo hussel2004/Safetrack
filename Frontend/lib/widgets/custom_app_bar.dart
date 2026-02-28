@@ -67,7 +67,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
-      title: Text(title),
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            'assets/images/safetrack_logo.jpg',
+            height: 32,
+            width: 32,
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(width: 8),
+          Flexible(child: Text(title, overflow: TextOverflow.ellipsis)),
+        ],
+      ),
       actions: [
         if (actions != null) ...actions!,
         if (showUserProfile && user != null)

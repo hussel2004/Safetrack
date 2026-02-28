@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.safetrack"
-    compileSdk = 34
+    compileSdk = 36
     ndkVersion = "27.1.12297006"
 
     compileOptions {
@@ -27,7 +27,7 @@ android {
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         multiDexEnabled = true
-        targetSdk = 34  // Latest stable Android version
+        targetSdk = 36  // Latest stable Android version
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

@@ -6,8 +6,9 @@ from app.api import deps
 from app.models.user import User
 from app.models.zone import Zone
 from app.models.vehicle import Vehicle
+from app.models.vehicle import Vehicle
 from app.schemas import zone as schemas
-from app.services.chirpstack import encode_geofence, send_downlink
+from app.services.chirpstack import send_downlink
 import logging
 
 logger = logging.getLogger(__name__)
@@ -86,17 +87,17 @@ async def create_zone(
     await db.refresh(zone)
 
     # Trigger downlink if linked to vehicle AND active
-    if zone.id_vehicule and zone.active:
-        try:
-            # We need to fetch the vehicle to get DevEUI
-            result = await db.execute(select(Vehicle).where(Vehicle.id_vehicule == zone.id_vehicule))
-            vehicle = result.scalars().first()
-            if vehicle and vehicle.deveui:
-                 encoded_data = encode_geofence(zone_in.model_dump())
-                 if encoded_data:
-                     await send_downlink(vehicle.deveui, encoded_data)
-        except Exception as e:
-            logger.error(f"Failed to trigger downlink for zone {zone.id_zone}: {e}")
+    # MOVED TO BACKEND: We no longer send zone coordinates to device
+    # if zone.id_vehicule and zone.active:
+    #     try:
+    #         result = await db.execute(select(Vehicle).where(Vehicle.id_vehicule == zone.id_vehicule))
+    #         vehicle = result.scalars().first()
+    #         if vehicle and vehicle.deveui:
+    #              encoded_data = encode_geofence(zone_in.model_dump())
+    #              if encoded_data:
+    #                  await send_downlink(vehicle.deveui, encoded_data)
+    #     except Exception as e:
+    #         logger.error(f"Failed to trigger downlink for zone {zone.id_zone}: {e}")
 
     return zone
 
@@ -153,49 +154,12 @@ async def update_zone(
     await db.refresh(zone)
 
     # Trigger downlink logic
-    if zone.id_vehicule:
-        try:
-             result = await db.execute(select(Vehicle).where(Vehicle.id_vehicule == zone.id_vehicule))
-             vehicle = result.scalars().first()
-             if vehicle and vehicle.deveui:
-                 # Determine action based on active state change
-                 should_send_update = False
-                 should_send_clear = False
-                 
-                 if zone.active and not was_active:
-                     # Activated
-                     should_send_update = True
-                     logger.info(f"Zone {zone.id_zone} activated. Sending downlink.")
-                 elif not zone.active and was_active:
-                     # Deactivated
-                     should_send_clear = True
-                     logger.info(f"Zone {zone.id_zone} deactivated. Clearing device geofence.")
-                 elif zone.active and was_active:
-                     # Update while active
-                     should_send_update = True
-                     logger.info(f"Active zone {zone.id_zone} updated. Sending new coordinates.")
-                 
-                 if should_send_update:
-                     # Reconstruct full zone data for encoding
-                     zone_data = {
-                         "type": zone.type,
-                         "latitude_centre": zone.latitude_centre,
-                         "longitude_centre": zone.longitude_centre,
-                         "rayon_metres": zone.rayon_metres,
-                         "coordinates": zone.coordinates
-                     }
-                     encoded_data = encode_geofence(zone_data)
-                     if encoded_data:
-                         await send_downlink(vehicle.deveui, encoded_data)
-
-                 if should_send_clear:
-                     # Send empty polygon (Type 0x02, 0 points)
-                     empty_zone = {"type": "POLYGON", "coordinates": []}
-                     encoded_data = encode_geofence(empty_zone)
-                     await send_downlink(vehicle.deveui, encoded_data)
-
-        except Exception as e:
-            logger.error(f"Failed to trigger downlink for zone {zone.id_zone}: {e}")
+    # MOVED TO BACKEND: We no longer sync zone coordinates to vehicle
+    # if zone.id_vehicule:
+    #     try:
+    #          ... (removed)
+    #     except Exception as e:
+    #         logger.error(f"Failed to trigger downlink for zone {zone.id_zone}: {e}")
 
     return zone
 
@@ -224,18 +188,9 @@ async def delete_zone(
          raise HTTPException(status_code=400, detail="Not enough permissions")
          
     # Trigger downlink to clear zone on device ONLY if it was active
-    if zone.id_vehicule and zone.active:
-        try:
-            result = await db.execute(select(Vehicle).where(Vehicle.id_vehicule == zone.id_vehicule))
-            vehicle = result.scalars().first()
-            if vehicle and vehicle.deveui:
-                # Send empty polygon (Type 0x02, 0 points)
-                empty_zone = {"type": "POLYGON", "coordinates": []}
-                encoded_data = encode_geofence(empty_zone)
-                logger.info(f"Clearing zone for vehicle {vehicle.deveui} (Geofence Delete)")
-                await send_downlink(vehicle.deveui, encoded_data)
-        except Exception as e:
-            logger.error(f"Failed to clear zone downlink for zone {zone.id_zone}: {e}")
+    # MOVED TO BACKEND: No need to clear local geofence as it's not used anymore
+    # if zone.id_vehicule and zone.active:
+    #     ... (removed)
 
     await db.delete(zone)
     await db.commit()

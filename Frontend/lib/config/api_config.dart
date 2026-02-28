@@ -2,6 +2,7 @@ class ApiConfig {
   // Pour un émulateur Android: http://10.0.2.2:8000
   // Pour un appareil physique: Utilisez l'IP WiFi de votre PC
   // Pour iOS Simulator: http://localhost:8000
+  // Use localhost with adb reverse tcp:8000 tcp:8000
   static const String baseUrl = 'http://192.168.1.115:8000';
   static const String apiV1 = '$baseUrl/api/v1';
 

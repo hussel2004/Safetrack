@@ -21,6 +21,7 @@ dependencies:
   http: ^1.0.0
   web_socket_channel: ^2.4.0
   flutter_local_notifications: ^17.2.2
+  shared_preferences: ^2.2.0
 
 dev_dependencies:
   flutter_test:

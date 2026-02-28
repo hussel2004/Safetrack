@@ -1,5 +1,7 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from app.core.config import settings
 
 app = FastAPI(
@@ -23,6 +25,11 @@ def root():
 
 from app.api.v1.api import api_router
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+# Mount Admin panel (React build output) at /admin
+_admin_dist = os.path.join(os.path.dirname(__file__), "..", "admin", "dist")
+if os.path.isdir(_admin_dist):
+    app.mount("/admin", StaticFiles(directory=_admin_dist, html=True), name="admin")
 
 # WebSocket Endpoint
 from fastapi import WebSocket, WebSocketDisconnect, Depends

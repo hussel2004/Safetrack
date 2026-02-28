@@ -4,12 +4,13 @@ import 'package:provider/provider.dart';
 import '../services/vehicle_service.dart';
 import '../services/auth_service.dart';
 import '../services/gps_service.dart';
+import '../services/geofence_service.dart';
+import '../services/alert_service.dart'; // Added this import
 import '../models/vehicle.dart';
 import '../theme.dart';
 import '../widgets/custom_app_bar.dart';
 import 'vehicle_detail_screen.dart';
 import 'vehicle_registration_screen.dart';
-import '../services/geofence_service.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -22,6 +23,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
+    // Force AlertService to initialize so background polling starts
+    context.read<AlertService>();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final vehicleService = context.read<VehicleService>();
       final gpsService = context.read<GpsService>();
@@ -32,7 +35,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       await geofenceService.fetchZones();
 
       // Start simulation for all vehicles AFTER they are loaded
-      final vehicleIds = vehicleService.vehicles.map((v) => v.gpsId).toList();
+      final vehicleIds = vehicleService.vehicles.map((v) => v.id).toList();
       if (vehicleIds.isNotEmpty) {
         gpsService.startTracking(vehicleIds);
       }
@@ -61,9 +64,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
           final vehicles = vehicleService.vehicles;
           // Use GeofenceService to check for active zones as it holds the real state
           final geofenceService = Provider.of<GeofenceService>(context);
+          final gpsService = Provider.of<GpsService>(context);
           final activeZones = vehicles
               .where((v) => geofenceService.hasActiveZone(v.id))
               .length;
+          final onlineCount = vehicles
+              .where((v) => gpsService.isVehicleOnline(v.id))
+              .length;
+          final relaisCoupes = vehicles.where((v) => v.isEngineStopped).length;
 
           return CustomScrollView(
             slivers: [
@@ -101,7 +109,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ).animate().fadeIn(delay: 100.ms).slideX(begin: -0.2),
                       const SizedBox(height: 24),
 
-                      // Stats Cards
+                      // Stats Cards — 2×2 Grid
                       Row(
                         children: [
                           Expanded(
@@ -115,14 +123,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           const SizedBox(width: 12),
                           Expanded(
                             child: _StatCard(
-                              icon: Icons.security,
-                              label: 'Zones Actives',
-                              value: activeZones.toString(),
+                              icon: Icons.wifi,
+                              label: 'En Ligne',
+                              value: onlineCount.toString(),
                               color: AppTheme.successColor,
                             ),
                           ),
                         ],
                       ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.2),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _StatCard(
+                              icon: Icons.security,
+                              label: 'Zones Actives',
+                              value: activeZones.toString(),
+                              color: Colors.blueAccent,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: _StatCard(
+                              icon: Icons.power_off,
+                              label: 'Relais Coupés',
+                              value: relaisCoupes.toString(),
+                              color: Colors.redAccent,
+                            ),
+                          ),
+                        ],
+                      ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.2),
                     ],
                   ),
                 ),
@@ -247,6 +277,8 @@ class _VehicleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gpsService = context.watch<GpsService>();
+    final isOnline = gpsService.isVehicleOnline(vehicle.id);
     return Hero(
       tag: 'vehicle_${vehicle.id}',
       child: Card(
@@ -307,10 +339,47 @@ class _VehicleCard extends StatelessWidget {
                             color: Colors.white54,
                           ),
                           const SizedBox(width: 4),
+                          Flexible(
+                            child: Text(
+                              vehicle.licensePlate,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodySmall!
+                                  .copyWith(color: Colors.white54),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          // Online / Offline Badge
+                          Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: isOnline
+                                  ? AppTheme.successColor
+                                  : Colors.red,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                if (isOnline)
+                                  BoxShadow(
+                                    color: AppTheme.successColor.withOpacity(
+                                      0.5,
+                                    ),
+                                    blurRadius: 4,
+                                    spreadRadius: 1,
+                                  ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 4),
                           Text(
-                            vehicle.licensePlate,
+                            isOnline ? 'En ligne' : 'Hors ligne',
                             style: Theme.of(context).textTheme.bodySmall!
-                                .copyWith(color: Colors.white54),
+                                .copyWith(
+                                  color: isOnline
+                                      ? AppTheme.successColor
+                                      : Colors.redAccent,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 10,
+                                ),
                           ),
                         ],
                       ),
@@ -318,38 +387,49 @@ class _VehicleCard extends StatelessWidget {
                   ),
                 ),
                 if (context.watch<GeofenceService>().hasActiveZone(vehicle.id))
-                  Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppTheme.successColor.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.security,
-                              color: AppTheme.successColor,
-                              size: 16,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              'Protégé',
-                              style: TextStyle(
-                                color: AppTheme.successColor,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                  Flexible(
+                    child:
+                        Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
                               ),
-                            ),
-                          ],
-                        ),
-                      )
-                      .animate(onPlay: (c) => c.repeat())
-                      .shimmer(duration: 2.seconds),
-                const SizedBox(width: 8),
-                const Icon(Icons.chevron_right, color: Colors.white24),
+                              decoration: BoxDecoration(
+                                color: AppTheme.successColor.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.security,
+                                    color: AppTheme.successColor,
+                                    size: 14,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Flexible(
+                                    child: Text(
+                                      'Protégé',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: AppTheme.successColor,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                            .animate(onPlay: (c) => c.repeat())
+                            .shimmer(duration: 2.seconds),
+                  ),
+                const SizedBox(width: 4),
+                const Icon(
+                  Icons.chevron_right,
+                  color: Colors.white24,
+                  size: 20,
+                ),
               ],
             ),
           ),

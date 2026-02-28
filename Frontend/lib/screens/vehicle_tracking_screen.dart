@@ -70,14 +70,19 @@ class _VehicleTrackingScreenState extends State<VehicleTrackingScreen> {
         lat = _latFilter.filter(gps.latitude);
         lng = _lngFilter.filter(gps.longitude);
         _lastGpsUpdate = gps.timestamp;
-      }
-    }
 
-    // Auto-center map on vehicle if following
-    if (_followVehicle && gps != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _mapController.move(LatLng(lat, lng), _mapController.camera.zoom);
-      });
+        // Auto-center map on vehicle if following AND position changed
+        if (_followVehicle) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            try {
+              // _mapController.camera might throw if map is not ready yet
+              _mapController.move(LatLng(lat, lng), _mapController.camera.zoom);
+            } catch (e) {
+              debugPrint('MapController not ready yet: $e');
+            }
+          });
+        }
+      }
     }
 
     final center = (gps != null)
@@ -120,7 +125,8 @@ class _VehicleTrackingScreenState extends State<VehicleTrackingScreen> {
             ),
             children: [
               TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                urlTemplate:
+                    'https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.safetrack.app',
               ),
 
@@ -172,6 +178,63 @@ class _VehicleTrackingScreenState extends State<VehicleTrackingScreen> {
             ],
           ),
 
+          // --- Offline overlay banner ---
+          if (!gpsService.isVehicleOnline(widget.vehicle.id))
+            Positioned(
+              top: 16,
+              left: 16,
+              right: 16,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.red.shade900.withOpacity(0.92),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.red.shade400, width: 1.5),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.wifi_off, color: Colors.white, size: 18),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            'Boîtier Hors Ligne',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                            ),
+                          ),
+                          if (gpsService.getLastSeen(widget.vehicle.id) != null)
+                            Text(
+                              'Dernière comm. : ${_formatLastSeen(gpsService.getLastSeen(widget.vehicle.id)!)}',
+                              style: const TextStyle(
+                                color: Colors.white70,
+                                fontSize: 11,
+                              ),
+                            )
+                          else
+                            const Text(
+                              'Aucune donnée reçue',
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 11,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
           // Info overlay
           Positioned(
             bottom: 16,
@@ -185,11 +248,47 @@ class _VehicleTrackingScreenState extends State<VehicleTrackingScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.vehicle.name,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            widget.vehicle.name,
+                            style: Theme.of(context).textTheme.titleLarge!
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: gpsService.isVehicleOnline(widget.vehicle.id)
+                                ? AppTheme.successColor.withOpacity(0.1)
+                                : Colors.red.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color:
+                                  gpsService.isVehicleOnline(widget.vehicle.id)
+                                  ? AppTheme.successColor
+                                  : Colors.red,
+                            ),
+                          ),
+                          child: Text(
+                            gpsService.isVehicleOnline(widget.vehicle.id)
+                                ? 'EN LIGNE'
+                                : 'HORS LIGNE',
+                            style: TextStyle(
+                              color:
+                                  gpsService.isVehicleOnline(widget.vehicle.id)
+                                  ? AppTheme.successColor
+                                  : Colors.redAccent,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 8),
                     if (gps != null) ...[
@@ -237,6 +336,15 @@ class _VehicleTrackingScreenState extends State<VehicleTrackingScreen> {
       ),
     );
   }
+}
+
+/// Formate la durée depuis la dernière communication de façon lisible.
+String _formatLastSeen(DateTime dt) {
+  final diff = DateTime.now().difference(dt);
+  if (diff.inSeconds < 60) return 'Il y a ${diff.inSeconds}s';
+  if (diff.inMinutes < 60) return 'Il y a ${diff.inMinutes} min';
+  if (diff.inHours < 24) return 'Il y a ${diff.inHours}h';
+  return 'Il y a ${diff.inDays}j';
 }
 
 class _InfoItem extends StatelessWidget {

@@ -13,3 +13,5 @@ from app.api.v1.endpoints import alerts
 api_router.include_router(alerts.router, prefix="/alerts", tags=["alerts"])
 from app.api.v1.endpoints import users
 api_router.include_router(users.router, prefix="/users", tags=["users"])
+from app.api.v1.endpoints import chirpstack_webhook
+api_router.include_router(chirpstack_webhook.router, prefix="/chirpstack", tags=["chirpstack"])

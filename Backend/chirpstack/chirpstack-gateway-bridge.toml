@@ -1,0 +1,24 @@
+[general]
+log_level=4
+
+[filters]
+net_ids=[]
+join_euis=[]
+
+[backend]
+type="semtech_udp"
+
+  [backend.semtech_udp]
+  udp_bind="0.0.0.0:1700"
+
+[integration]
+marshaler="protobuf"
+
+  [integration.mqtt]
+  event_topic_template="gateway/{{ .GatewayID }}/event/{{ .EventType }}"
+  command_topic_template="gateway/{{ .GatewayID }}/command/#"
+  auth_type="generic"
+
+    [integration.mqtt.auth.generic]
+    server="tcp://mosquitto:1883"
+    clean_session=true

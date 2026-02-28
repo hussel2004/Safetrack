@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           shape: BoxShape.circle,
                         ),
                         child: Image.asset(
-                          'assets/images/safetrack_logo.png',
+                          'assets/images/safetrack_logo.jpg',
                           height: 80,
                           width: 80,
                         ),
