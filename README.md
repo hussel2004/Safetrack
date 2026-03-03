@@ -14,6 +14,7 @@ Système de suivi GPS de véhicules en temps réel avec géofencing, alertes int
 - [Documentation](#documentation)
 - [Structure du projet](#structure-du-projet)
 - [Rôles utilisateurs](#rôles-utilisateurs)
+- [Dépannage rapide](#dépannage-rapide)
 
 ---
 
@@ -167,6 +168,9 @@ Pour les instructions complètes, consultez le **[Guide de déploiement](GUIDE_D
 |---|---|
 | [Guide de déploiement](GUIDE_DEPLOIEMENT.md) | Installation, configuration, mise en production |
 | [Guide d'utilisation](GUIDE_UTILISATEUR.md) | Manuel utilisateur de l'application mobile et admin |
+| [README Backend](Backend/README.md) | API FastAPI — installation, routes, modèles, Docker |
+| [README Frontend](Frontend/README.md) | Application Flutter — installation, configuration, écrans |
+| [README AdminWeb](AdminWeb/README.md) | Interface admin React — installation, build, déploiement |
 
 ---
 
@@ -174,25 +178,37 @@ Pour les instructions complètes, consultez le **[Guide de déploiement](GUIDE_D
 
 ```
 SafeTrack2/
-├── Backend/                    # API FastAPI
+├── Backend/                    # API FastAPI (Python)
 │   ├── app/
 │   │   ├── api/v1/endpoints/   # Routes REST
 │   │   ├── models/             # Modèles SQLAlchemy
 │   │   ├── schemas/            # Schémas Pydantic
-│   │   ├── services/           # Logique métier
-│   │   └── core/               # Config, sécurité
-│   ├── docker-compose.yml      # Orchestration Docker
-│   └── init.sql                # Schéma base de données
-├── Frontend/                   # Application Flutter
+│   │   ├── services/           # Logique métier (géofencing, ChirpStack, WebSocket)
+│   │   └── core/               # Config, sécurité JWT
+│   ├── admin/dist/             # Build AdminWeb servi à /admin
+│   ├── docker-compose.yml      # Orchestration Docker (8 services)
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── README.md               # Documentation Backend
+├── Frontend/                   # Application mobile Flutter
 │   ├── lib/
 │   │   ├── screens/            # Écrans de l'application
-│   │   ├── services/           # Services API
+│   │   ├── services/           # Services API et WebSocket
 │   │   ├── models/             # Modèles de données
+│   │   ├── config/             # Configuration API
 │   │   └── widgets/            # Composants réutilisables
-│   └── pubspec.yaml
-├── AdminWeb/                   # Interface admin React
-│   └── src/
-├── README.md
+│   ├── pubspec.yaml
+│   └── README.md               # Documentation Frontend
+├── AdminWeb/                   # Interface d'administration React
+│   ├── src/
+│   │   ├── App.jsx             # Composant principal
+│   │   └── main.jsx            # Point d'entrée
+│   ├── package.json
+│   ├── vite.config.js
+│   └── README.md               # Documentation AdminWeb
+├── lorawan_node/               # Firmware Arduino (mode interactif/debug)
+├── safetrack_auto/             # Firmware Arduino (mode production automatique)
+├── README.md                   # Ce fichier
 ├── GUIDE_DEPLOIEMENT.md
 └── GUIDE_UTILISATEUR.md
 ```
@@ -215,3 +231,13 @@ SafeTrack2/
 - **Redémarrer les services** : `docker compose restart`
 - **Réinitialiser la base de données** : `docker compose down -v && docker compose up -d`
 - **Docs interactives de l'API** : `http://localhost:8000/docs`
+
+---
+
+## Composants — documentation détaillée
+
+Chaque composant dispose de sa propre documentation :
+
+- [Backend/README.md](Backend/README.md) — Routes API, modèles, services, variables d'environnement
+- [Frontend/README.md](Frontend/README.md) — Installation Flutter, configuration API, build APK
+- [AdminWeb/README.md](AdminWeb/README.md) — Installation Node, build Vite, déploiement
